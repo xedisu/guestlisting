@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Objects;
 
 class GuestsList {
-
     private final int guestsCapacity;
     private final ArrayList<Guest> guestList;
     private final ArrayList<Guest> waitList;
@@ -19,8 +18,9 @@ class GuestsList {
     private void updateGuestList() {
         if (guestList.size() < guestsCapacity && waitList.size() > 0) {
             guestList.add(waitList.get(0));
-            System.out.println("[" + waitList.get(0).fullName() + "] Felicitari! Locul tau la eveniment este confirmat. Te asteptam!");
+            System.out.println("Felicitari " +waitList.get(0).fullName() +"! Locul tau la eveniment este confirmat. Te asteptam!");
             waitList.remove(0);
+
         }
     }
 
@@ -32,7 +32,11 @@ class GuestsList {
      * number on the waiting list
      */
     public int add(Guest guest) {
-        if (isOnTheListAlready(guest)){
+        if (guestList.contains(guest)) {
+            return 0;
+        }
+
+        if (waitList.contains(guest)) {
             return -1;
         }
 
@@ -43,8 +47,7 @@ class GuestsList {
         } else {
             waitList.add(guest);
             int index = waitList.indexOf(guest) + 1;
-            System.out.println("Te-ai inscris cu succes in lista de asteptare si ai primit numarul de ordine <"
-                    + index + ">. Te vom notifica daca un loc devine disponibil");
+            System.out.println("[" + guest.fullName() + "] Te-ai inscris cu succes in lista de asteptare si ai primit numarul de ordine "+index+". Te vom notifica daca un loc devine disponibil.");
             return index;
         }
     }
@@ -74,6 +77,26 @@ class GuestsList {
         }
 
         return false;
+    }
+
+    public Guest findGuestFromLists(Guest g) {
+        for (Guest guest : guestList) {
+            if (guest.hashCode() == g.hashCode()) {
+                if (guest.equals(g)) {
+                    return guest;
+                }
+            }
+        }
+
+        for (Guest guest : waitList) {
+            if (guest.hashCode() == g.hashCode()) {
+                if (guest.equals(g)) {
+                    return guest;
+                }
+            }
+        }
+
+        return null;
     }
 
     public void updateGuest(Guest guest, int opts, String match) {
@@ -203,29 +226,24 @@ class GuestsList {
 
     // Show the list of guests.
     public void showGuestsList() {
-        System.out.print("[");
+        int index = 1;
         for (Guest guest : guestList) {
-            if (guestList.indexOf(guest) == guestsCapacity - 1) {
-                System.out.println(guest + "]");
-                break;
-            }
-            System.out.println(guest);
+
+            System.out.println(index+ ". "+guest);
+            index++;
         }
     }
 
     // Show the people on the waiting list.
     public void showWaitingList() {
         if (waitList.size() == 0) {
-            System.out.println(waitList);
+            System.out.println("Lista de asteptare este goala...");
             return;
         }
-        System.out.print("[");
+        int index = 1;
         for (Guest guest : waitList) {
-            if (waitList.indexOf(guest) == waitList.size() - 1) {
-                System.out.println(guest + "]");
-                break;
-            }
-            System.out.println(guest);
+            System.out.println(index+ ". "+guest);
+            index++;
         }
     }
 

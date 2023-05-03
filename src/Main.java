@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,17 +22,12 @@ public class Main {
     }
 
     private static void addNewGuest(Scanner sc, GuestsList list) {
-        System.out.println("Adding a new Guest, please give all the necessary details.");
-        System.out.println("Lastname:");
         String lastName = sc.nextLine();
-        System.out.println("Firstname:");
         String firstName = sc.nextLine();
-        System.out.println("Email:");
         String email = sc.nextLine();
-        System.out.println("Phone Number");
         String phoneNumber = sc.nextLine();
-        Guest guest = new Guest(lastName, firstName, email, phoneNumber);
 
+        Guest guest = new Guest(lastName, firstName, email, phoneNumber);
 
         if (guest.getLastName() != null && guest.getFirstName() != null && guest.getEmail() != null && guest.getPhoneNumber() != null) {
             list.add(guest);
@@ -39,48 +35,36 @@ public class Main {
     }
 
     private static void checkGuest(Scanner sc, GuestsList list) {
-       // System.out.println("Checking a guest, please select the search criteria from the following:");
         System.out.println(findGuest(sc, list));
     }
 
     private static void removeGuest(Scanner sc, GuestsList list) {
-        System.out.println("Removing a guest, please select the option criteria from the following:\n" +
-                "\t 1.LastName and FirstName\n" +
-                "\t 2.Email\n" +
-                "\t 3.PhoneNumber");
         int opt = sc.nextInt();
         sc.nextLine();
 
         switch (opt) {
             case 1:
-                System.out.println("Give the LastName and FirstName, separated by a whitespace");
-                String match = sc.nextLine();
-                String lastName = match.substring(0, match.indexOf(" "));
-                String firstName = match.substring(match.indexOf(" ") + 1);
-                System.out.println( list.remove(firstName, lastName));
+                String lastName = sc.nextLine();
+                String firstName = sc.nextLine();
+                list.remove(firstName, lastName);
                 break;
             case 2:
-                System.out.println("Give the email");
                 String matchEmail = sc.nextLine();
-                System.out.println( list.remove(opt, matchEmail));
+                list.remove(opt, matchEmail);
                 break;
             case 3:
-                System.out.println("Give the phonenumber");
                 String matchPhonenumber = sc.nextLine();
-                System.out.println( list.remove(opt, matchPhonenumber));
+                list.remove(opt, matchPhonenumber);
                 break;
         }
     }
 
     private static void updateGuest(Scanner sc, GuestsList list) {
-        System.out.println("Updating a guest, please select the option criteria from the following:");
-
-       Guest foundGuest = findGuest(sc, list);
+        Guest foundGuest = findGuest(sc, list);
         if (foundGuest == null){
             return;
         }
 
-        System.out.println("What do you want modified? 1-lastname | 2-firstname | 3-email | 4-phonenumber");
         int modOpts = sc.nextInt();
         sc.nextLine();
         String modify = sc.nextLine();
@@ -88,28 +72,21 @@ public class Main {
     }
 
     private static Guest findGuest(Scanner sc, GuestsList list) {
-        System.out.println("\t 1.LastName and FirstName\n" +
-                "\t 2.Email\n" +
-                "\t 3.PhoneNumber");
         int opt = sc.nextInt();
         Guest foundGuest = null;
         sc.nextLine();
 
         switch (opt) {
             case 1:
-                System.out.println("Give the LastName and FirstName, separated by a whitespace");
-                String match = sc.nextLine();
-                String lastName = match.substring(0, match.indexOf(" "));
-                String firstName = match.substring(match.indexOf(" ") + 1);
+                String lastName = sc.nextLine();
+                String firstName = sc.nextLine();
                 foundGuest = list.search(firstName, lastName);
                 break;
             case 2:
-                System.out.println("Give the email");
                 String matchEmail = sc.nextLine();
                 foundGuest = list.search(opt, matchEmail);
                 break;
             case 3:
-                System.out.println("Give the phonenumber");
                 String matchPhonenumber = sc.nextLine();
                 foundGuest = list.search(opt, matchPhonenumber);
                 break;
@@ -122,9 +99,16 @@ public class Main {
     }
 
     private static void searchList(Scanner sc, GuestsList list) {
-        System.out.println("Attempting to partial search the lists, give the string criteria");
         String partialSearchString = sc.nextLine();
-        System.out.println(list.partialSearch(partialSearchString));
+        List<Guest> partialSearchList = list.partialSearch(partialSearchString);
+        if ( partialSearchList.size()==0){
+            System.out.println("Nothing found");
+            return;
+        }
+        for ( Guest guest : partialSearchList ){
+            System.out.println(guest);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -133,19 +117,6 @@ public class Main {
         scanner.nextLine();
 
         GuestsList list = new GuestsList(size);
-
-        Guest g1 = new Guest("Dobrescu", "MihaiCatalin", "mihai.c.dobrescu@gmail.com", "07283467520");
-        Guest g5 = new Guest("Dobresque", "MihaiCatalin", "mihai.c.dobresque@gmail.com", "07283234520");
-        Guest g2 = new Guest("Tanasoiu", "Bogdanof", "cafedon@gmail.com", "072333330");
-        Guest g3 = new Guest("Enescu", "Suzana", "pucii@gmail.com", "07456345665");
-        Guest g4 = new Guest("Corcoveanu", "Constantin", "morcoveanu@gmail.com", "0745234234");
-        Guest g6 = new Guest("Constantina", "CristianaEmanuella", "kusky@gmail.com", "08512354123");
-        list.add(g1);
-        list.add(g2);
-        list.add(g3);
-        list.add(g4);
-        list.add(g5);
-        list.add(g6);
 
         boolean running = true;
         while (running) {

@@ -36,33 +36,6 @@ class Guest {
         this.firstName = firstName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Guest guest = (Guest) o;
-        return Objects.equals(lastName, guest.lastName) && Objects.equals(firstName, guest.firstName)
-                && Objects.equals(email, guest.email) && Objects.equals(phoneNumber, guest.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(lastName, firstName, email, phoneNumber);
-    }
-
-    @Override
-    public String toString() {
-        return "LastName: " + lastName + ", FirstName:" + firstName + ", Email: " + email + ", PhoneNumber: " + phoneNumber;
-    }
-
-    public String fullName() {
-        return lastName + " " + firstName;
     }
 
     public String getLastName() {
@@ -95,5 +68,31 @@ class Guest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lastName, firstName, email, phoneNumber);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Guest guest = (Guest) obj;
+        return Objects.equals(lastName, guest.lastName) && Objects.equals(firstName, guest.firstName)
+                && Objects.equals(email, guest.email) && Objects.equals(phoneNumber, guest.phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Nume: " + lastName + " " + firstName + ", Email: " + email + ", Telefon: " + phoneNumber;
+    }
+
+    public String fullName() {
+        return lastName + " " + firstName;
     }
 }
